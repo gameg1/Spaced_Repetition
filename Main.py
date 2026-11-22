@@ -12,6 +12,7 @@ def main():
 
 
 def add_note(Q,A):
+    """Adds a cue card to the inbox as a question/answer pair"""
     PATH = "./Shoebox/inbox"
     try:
         with open(PATH,"a") as file:
