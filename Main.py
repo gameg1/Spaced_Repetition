@@ -10,11 +10,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-a","--add", nargs = 2, dest="cue_card",metavar=("question","answer"), help = "Adds a Cue card to your inbox")
     parser.add_argument("-l","--look", action= "store_true")
+    parser.add_argument("-d","--daily",action="store_true")
     args = parser.parse_args()
     if args.cue_card:
         add_note(Q=args.cue_card[0], A=args.cue_card[1])
     if args.look:
         look_notes()
+    if args.daily:
+        daily_spaced_rep()
 
 
 def add_note(Q,A):
@@ -43,6 +46,21 @@ def delete_note():
     pass
 
 def daily_spaced_rep():
+    # TODO : move pattern info into main programt
+    # TODO : Simplify daily patern of Leitner Box
+    # grab user info
+    profile:user = get_user_info()
+    # move an amount of files from inbox to level 1 based on setting. Randomly?
+    # Warn user if there is not enough flashcards to use.
+    # find which levels to study on based on the day.
+    # for each level;
+    # pick a question at random.
+    # show the question to the user
+    # wait untill the user wants to see the answer
+    # show the answer
+    # ask if they got this correct
+    # if they did, move to the next level
+    # if not, move back to level one
     pass
 
 def validate_shoebox():
@@ -136,8 +154,21 @@ def validate_profile():
             print("Error, file not found")
             exit(1)
 
+class user:
+    def __init__(self, name, day, pattern, amount):
+        self.name = name
+        self.day = day
+        self.pattern = pattern
+        self.amount = amount
+
+def get_user_info()->user:
+    with open(PROFILE_PATH+"User", "r") as file:
+        profile = {}
+        for line in file.readlines():
+            a,b = line.strip().split(": ")
+            profile[a] = b
+    return user(*profile.values())
 def move_note_up():pass
-def reset_note():pass
 
 if __name__ == "__main__":
     main()
